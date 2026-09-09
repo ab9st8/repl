@@ -42,7 +42,12 @@ stdout,
   "hello %s", "me" format.
   print.
 
-tcp_listener, new; "0.0.0.0:3000"
+
+config-builder, new;
+  framerate 60
+  orientation landscape
+  feature-flag off
+build.
 ```
 
 its just an idea, and a bit of a pretentious one at that, but i like it and it looks cool. its interesting to me how something resembling standard programming language "grammar" can emerge naturally from such a minimal base.
