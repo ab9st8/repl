@@ -30,7 +30,7 @@ the grammar of a stack oriented language, like the one described above, naturall
 this may look alien at first but i theorize that in the context of a novel kind of natural language-like, object- (or "subject-") oriented programming paradigm, it can gain a peculiar melody. imagine
 - `,` is a Particle that marks a Word the subject of a verb (marks a word the object of a method),
 - `.` is a Particle that marks a Word a verb (marks a word a function/method), and
-- `;` is short for `,.`,
+- `;` is short for `.,`,
 
 and keep in mind verbs dont have to have subjects:
 ```
