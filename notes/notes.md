@@ -45,7 +45,7 @@ stdout,
 
 config-builder, new;
   framerate 60
-  orientation landscape
+  orientation landscape 
   feature-flag off
 build.
 ```
@@ -53,3 +53,13 @@ build.
 its just an idea, and a bit of a pretentious one at that, but i like it and it looks cool. its interesting to me how something resembling standard programming language "grammar" can emerge naturally from such a minimal base.
 
 code begins to resemble natural language, more specifically SOV (subject-object-verb) word order languages like japanese. fun fact, [this seems to have been explored in the Japanese programming language Mind](https://ja.wikipedia.org/wiki/Mind_(%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%9F%E3%83%B3%E3%82%B0%E8%A8%80%E8%AA%9E))
+
+## portability
+
+we are choosing Rust as the implementation language because of its widespread adoption and unhindering performance. binary size is okayish at best but we can make do.
+
+this language is meant to compile to bytecode of a VM we will design and implement. both the compiler and this VM will be written in Rust. they do not have to be one monolithic entity. separating them will allow us to compile to a portable "executable" on one machine and later run that executable on a less powerful piece of hardware that nonetheless can run the VM executable.
+
+these things are to entail this language will not be seeing a bootstrap unless the same compilation target that the rust implementation compiles to is added. that will allow us to rewrite the compiler in the langauge itself and compile it to the same target that the rust implementation compiles to. however this is not something that interests me too much at the moment, let alone is a priority.
+
+
