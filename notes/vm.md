@@ -46,5 +46,6 @@ this however can (and should) be more idiomatically written as
 
 the big question: lexical or dynamic scope?
 
-
-
+- there is one global environment table that stores associations visible from any code block context.
+- when execution shifts to a new codeblock, a new environment table is provisioned specifically for the scope of that codeblock. the set of visible associations within that codeblock, lexically, is the aforementioned environment table, and base-case the global environment table.
+- idk yet about closures. we shuold have them probably. in any case no point in sweating so much when binding values to words is an antipattern anyway.
