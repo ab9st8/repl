@@ -64,5 +64,5 @@ what about control flow? else branches/JIFs are not very "know-at-lex-time". i g
 2 2 eq?! <THEN> "two equals two" print! <ELSE> "something went wrong" print! <END> -- special keyword tokens TBD
 ```
 
-all of this should be easily achievable with "state counters". i did a similar thing with `(dis)` in [https://github.com/ab9st8/awrwydr](awrwydr)
+all of this should be easily achievable with "state counters". i did a similar thing with `(dis)` in [awrwydr](https://github.com/ab9st8/awrwydr)
 
