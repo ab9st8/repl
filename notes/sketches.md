@@ -32,7 +32,7 @@ ten, five, add! print! -- 15
 now that i think about it there is no reason for particles to be strict suffixes of tokens. the language itself is postfix but the "metalanguage of token markings" doesnt have to be.
 i can imagine the lexer making its way through sourcecode and encountering, lets say, a prefix instead of a suffix. it creates a new token entry and marks it as whatever it wouldve marked it as if it wouldve been a suffix.
 
-basically it's a question of whether we want to separate the lex stage from the run stage. if we're going for strict prefixes we pretty much don't even need a lex stage, we can just execute everything as it goes. a dedicated lex stage would discern an atom word from a word with a particle and perform that two-to-one transformation.
+basically it's a question of whether we want to separate the lex stage from the run stage. if we're going for strict postfixes we pretty much don't even need a lex stage, we can just execute everything as it goes. a dedicated lex stage would discern an atom word from a word with a particle and perform that two-to-one transformation.
 
 ---
 
