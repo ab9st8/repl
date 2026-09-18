@@ -18,8 +18,6 @@ note we do not provide a boolean type because `true` and `false` are simply ("sp
 
 uniquely, i think atoms should have a static lifetime (i.e. should not be garbage-collected and live as long as the VM does). but we'll see.
 
----
-
 ## associations
 
 the VM is capable of storing associations between words and values. a word may be associated with any literal. the visibility and lifetime of these associations is dependent on their context
@@ -48,4 +46,14 @@ the big question: lexical or dynamic scope?
 
 - there is one global environment table that stores associations visible from any code block context.
 - when execution shifts to a new codeblock, a new environment table is provisioned specifically for the scope of that codeblock. the set of visible associations within that codeblock, lexically, is the aforementioned environment table, and base-case the global environment table.
+- when execution returns from the codeblock, the vm must _unwind_ and destroy that environment table, so associations defined in the codeblock do not persist outside of it
 - idk yet about closures. we shuold have them probably. in any case no point in sweating so much when binding values to words is an antipattern anyway.
+
+## call stack
+
+### frame structure
+what does a function need to be able to run?
+- a stack (the shared stack)
+- its own lexical scope within which associations will be stored and which will be destroyed on exit
+- (?) a return address -- to know where in the code to return on exit
+
