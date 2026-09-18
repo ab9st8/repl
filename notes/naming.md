@@ -10,4 +10,4 @@ candidates:
 
 | name | (1.) | (2.) | (3.) | (4.) |
 |------|------|------|------|------|
-| sen | X | X (can't imagine other ways to pronounce it) | X "sen lang", "sen \[programming] language" feels ok enough | [X](https://en.wiktionary.org/wiki/sen) |
+| Sen | X | X (can't imagine other ways to pronounce it) | X "sen lang", "sen \[programming] language" feels ok enough | [X](https://en.wiktionary.org/wiki/sen) |
