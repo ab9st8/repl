@@ -26,19 +26,19 @@ the VM is capable of storing associations between words and values. a word may b
 
 note that codeblocks dont provide any "special" syntax for named arguments, but you can make do if you need to:
 ```
-{ a. b. c.
-  a, b, add! c, add!
-} sum-three.
+{ a ; b ; c ;
+  a b c + +
+} 'sum-three' ;
 
-1 2 3 sum-three! -- binds `a` to 3, `b` to 2, `c` to 1 inside the codeblock, computes sum
-print!
+1 2 3 sum-three -- binds `a` to 3, `b` to 2, `c` to 1 inside the codeblock, computes sum
+print           -- 6
 ```
 
 this however can (and should) be more idiomatically written as
 ```
 {
-  add! add!
-} sum-three.
+  + +
+} 'sum-three' ;
 ```
 
 
