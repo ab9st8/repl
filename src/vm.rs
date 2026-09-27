@@ -1,12 +1,9 @@
-use std::vec::Vec;
-
 use crate::{
     code::{Chunk, Opcode},
     error::Error,
     value::Value,
 };
 
-#[derive(Default)]
 pub struct Vm {
     stack: Vec<Value>,
 }
@@ -31,12 +28,16 @@ impl Vm {
         Ok(())
     }
 
-    pub fn pop(&mut self) -> Option<Value> {
-        self.stack.pop()
+    pub fn pop(&mut self) -> Result<Value> {
+        if self.stack.is_empty() {
+            return Err(Error::StackUnderflow);
+        }
+
+        Ok(self.stack.pop().unwrap())
     }
 
-    pub fn top(&self) -> Option<&Value> {
-        self.stack.last()
+    pub fn top(&self) -> Result<&Value> {
+        self.stack.last().ok_or(Error::StackUnderflow)
     }
 
     pub fn run(&mut self, chunk: Chunk) -> Result<()> {
@@ -47,28 +48,34 @@ impl Vm {
 
             match op {
                 Opcode::Swap => {
-                    let (a, b) = (self.pop(), self.pop());
-                    match (a, b) {
-                        (Some(val_a), Some(val_b)) => {
-                            self.push(val_a)?;
-                            self.push(val_b)?;
-                        }
-                        _ => return Err(Error::StackUnderflow),
-                    }
-                }
-                Opcode::Dup => {
-                    if let Some(top) = self.top() {
-                        if self.push(top.clone()).is_err() {
-                            return Err(Error::StackOverflow);
-                        }
-                    } else {
+                    let n = self.stack.len();
+                    if n < 2 {
                         return Err(Error::StackUnderflow);
                     }
+
+                    self.stack.swap(n - 1, n - 2);
                 }
-                Opcode::Push(idx) => self.push(chunk.constant_at(idx))?,
+                Opcode::Dup => {
+                    let top = self.top()?.clone();
+                    self.push(top)?;
+                }
+                Opcode::Push(idx) => self.push(chunk.constant_at(idx)?)?,
             }
         }
 
         Ok(())
     }
+}
+
+impl Default for Vm {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    // TODO
 }

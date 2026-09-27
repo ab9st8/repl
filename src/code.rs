@@ -1,4 +1,4 @@
-use crate::value::Value;
+use crate::{error::Error, value::Value};
 
 #[derive(Debug, Copy, Clone)]
 pub enum Opcode {
@@ -14,7 +14,10 @@ pub struct Chunk {
 }
 
 impl Chunk {
-    pub fn constant_at(&self, idx: usize) -> Value {
-        self.constants[idx].clone()
+    pub fn constant_at(&self, idx: usize) -> Result<Value, Error> {
+        self.constants
+            .get(idx)
+            .cloned()
+            .ok_or(Error::BadConstant(idx))
     }
 }
