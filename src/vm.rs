@@ -6,9 +6,9 @@ use crate::{
     value::Value,
 };
 
+#[derive(Default)]
 pub struct Vm {
     stack: Vec<Value>,
-    pub chunk: Chunk,
 }
 
 type Result<T> = std::result::Result<T, Error>;
@@ -16,10 +16,9 @@ type Result<T> = std::result::Result<T, Error>;
 impl Vm {
     const STACK_SIZE: usize = 0x1000;
 
-    pub fn new(chunk: Chunk) -> Self {
+    pub fn new() -> Self {
         Self {
             stack: Vec::with_capacity(Self::STACK_SIZE),
-            chunk,
         }
     }
 
@@ -40,14 +39,10 @@ impl Vm {
         self.stack.last()
     }
 
-    pub fn run(&mut self) -> Result<()> {
-        if self.chunk.consumed {
-            return Err(Error::OldChunk);
-        }
-
+    pub fn run(&mut self, chunk: Chunk) -> Result<()> {
         let mut ip = 0;
-        while ip < self.chunk.code.len() {
-            let op = self.chunk.code[ip];
+        while ip < chunk.code.len() {
+            let op = chunk.code[ip];
             ip += 1;
 
             match op {
@@ -70,11 +65,10 @@ impl Vm {
                         return Err(Error::StackUnderflow);
                     }
                 }
-                Opcode::Push(idx) => self.push(self.chunk.constant_at(idx))?,
+                Opcode::Push(idx) => self.push(chunk.constant_at(idx))?,
             }
         }
 
-        self.chunk.consumed = true;
         Ok(())
     }
 }

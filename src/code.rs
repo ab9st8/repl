@@ -11,7 +11,6 @@ pub enum Opcode {
 pub struct Chunk {
     constants: Vec<Value>,
     pub code: Vec<Opcode>,
-    pub consumed: bool,
 }
 
 impl Chunk {
