@@ -2,6 +2,7 @@ use std::vec::Vec;
 
 use crate::{
     code::{Chunk, Opcode},
+    error::Error,
     value::Value,
 };
 
@@ -9,6 +10,8 @@ pub struct Vm {
     stack: Vec<Value>,
     pub chunk: Chunk,
 }
+
+type Result<T> = std::result::Result<T, Error>;
 
 impl Vm {
     const STACK_SIZE: usize = 0x1000;
@@ -20,9 +23,9 @@ impl Vm {
         }
     }
 
-    pub fn push(&mut self, value: Value) -> Result<(), ()> {
+    pub fn push(&mut self, value: Value) -> Result<()> {
         if self.stack.len() == Self::STACK_SIZE {
-            return Err(());
+            return Err(Error::StackOverflow);
         }
 
         self.stack.push(value);
@@ -37,9 +40,9 @@ impl Vm {
         self.stack.last()
     }
 
-    pub fn run(&mut self) -> Result<(), ()> {
+    pub fn run(&mut self) -> Result<()> {
         if self.chunk.consumed {
-            return Err(());
+            return Err(Error::OldChunk);
         }
 
         let mut ip = 0;
@@ -55,14 +58,16 @@ impl Vm {
                             self.push(val_a)?;
                             self.push(val_b)?;
                         }
-                        _ => return Err(()),
+                        _ => return Err(Error::StackUnderflow),
                     }
                 }
                 Opcode::Dup => {
                     if let Some(top) = self.top() {
-                        self.push(top.clone())?;
+                        if self.push(top.clone()).is_err() {
+                            return Err(Error::StackOverflow);
+                        }
                     } else {
-                        return Err(());
+                        return Err(Error::StackUnderflow);
                     }
                 }
                 Opcode::Push(idx) => self.push(self.chunk.constant_at(idx))?,
