@@ -14,6 +14,10 @@ pub struct Chunk {
 }
 
 impl Chunk {
+    pub fn new(constants: Vec<Value>, code: Vec<Opcode>) -> Self {
+        Self { constants, code }
+    }
+
     pub fn constant_at(&self, idx: usize) -> Result<Value, Error> {
         self.constants
             .get(idx)
