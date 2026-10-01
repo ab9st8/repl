@@ -42,7 +42,7 @@ impl Vm {
         self.stack.last().ok_or(Error::StackUnderflow)
     }
 
-    pub fn run(&mut self, chunk: Chunk) -> Result<()> {
+    pub fn run(&mut self, chunk: &Chunk) -> Result<()> {
         let mut ip = 0;
         while ip < chunk.code.len() {
             let op = chunk.code[ip];
@@ -81,13 +81,13 @@ mod tests {
 
     fn run(chunk: Chunk) -> Result<Vec<Value>> {
         let mut vm = Vm::new();
-        vm.run(chunk)?;
+        vm.run(&chunk)?;
         Ok(vm.stack)
     }
 
     fn run_with_stack_size(stack_size: usize, chunk: Chunk) -> Result<Vec<Value>> {
         let mut vm = Vm::with_stack_size(stack_size);
-        vm.run(chunk)?;
+        vm.run(&chunk)?;
         Ok(vm.stack)
     }
 
