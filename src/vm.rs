@@ -1,15 +1,13 @@
 use crate::{
     code::{Chunk, Opcode},
-    error::Error,
+    error::{Error, Result},
     value::Value,
 };
 
 pub struct Vm {
     stack_size: usize,
-    pub stack: Vec<Value>,
+    stack: Vec<Value>,
 }
-
-type Result<T> = std::result::Result<T, Error>;
 
 impl Vm {
     const DEFAULT_STACK_SIZE: usize = 0x1000;
